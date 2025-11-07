@@ -14,11 +14,12 @@
 
 ##### **_Steps to Deploy locally_**
 1. Install Localstack in your system. (I am running the localstack on docker)
+   Command to run the localstack on docker
    ```
    docker run -d -p 4566:4566 -p 4571:4571 -e SERVICES=lambda,s3,iam,logs,events -e DEBUG=1 -e LAMBDA_EXECUTOR=docker-reuse -v //var/run/docker.sock:/var/run/docker.sock --name localstack localstack/localstack
    ```
-2. Create the terraform for creating resources like s3 bucket, lambdas, eventbridge, logs
-3. The following code will help package the lambda codes.
+3. Create the terraform for creating resources like s3 bucket, lambdas, eventbridge, logs
+4. The following code will help package the lambda codes.
     ```
     mkdir lambda_build
     cd lambda_build
@@ -27,12 +28,12 @@
     powershell Compress-Archive -Path * -DestinationPath ..\lambda_function.zip
     cd ..
    ```
-4. Run terraform commands to deploy the project.
+5. Run terraform commands to deploy the project.
     ```
     terraform init --upgrade
     terraform apply -auto-approve
     ```
-5. The following command is needed to run the lambda.
+6. The following command is needed to run the lambda.
     ```
     aws --endpoint-url=http://localhost:4566 lambda invoke --function-name data-sync-lambda output.json
     ```
